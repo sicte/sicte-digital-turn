@@ -10,6 +10,7 @@
     "format": "prettier --write \"**/*.{js,ts,vue,css,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
+    "dev:electron": "quasar dev -m electron",
     "build": "quasar build",
     "prepare": "husky install"
   },
@@ -28,6 +29,8 @@
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
     "autoprefixer": "^10.4.2",
+    "electron": "^26.0.0",
+    "electron-packager": "^17.1.1",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-vue": "^9.0.0",
