@@ -1,10 +1,6 @@
 export enum TurnType {
-  RMB,
-  ERD,
-  'RMB/ERB',
-  CB,
+  RMB = 'RMB',
+  ERD = 'ERD',
+  RMBERB = 'RMBERB',
+  CB = 'CB',
 }
-// EMB,
-// EMR,
-// EMBMR,
-// IB,
