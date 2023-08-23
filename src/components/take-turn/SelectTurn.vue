@@ -28,22 +28,22 @@ const ticketButtons = [
   {
     color: 'primary',
     label: 'Recibir material de Bodega',
-    type: TurnType.EMB,
+    type: TurnType.RMB,
   },
   {
     color: 'primary',
     label: 'Entrega de equipos recogidos',
-    type: TurnType.EMBMR,
+    type: TurnType.ERD,
   },
   {
     color: 'secondary',
     label: 'Entrega de recogidos y recibir material',
-    type: TurnType.EMR,
+    type: TurnType.RMBERB,
   },
   {
     color: 'secondary',
     label: 'Consultoría de material',
-    type: TurnType.IB,
+    type: TurnType.CB,
   },
 ];
 
@@ -66,7 +66,7 @@ const createTurn = async (typeCase: TurnType) => {
   } catch (error) {
     console.error(error);
   } finally {
-    location.reload();
+    // location.reload();
     $q.loading.hide();
   }
 };
