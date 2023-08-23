@@ -66,7 +66,9 @@ const createTurn = async (typeCase: TurnType) => {
   } catch (error) {
     console.error(error);
   } finally {
-    // location.reload();
+    setTimeout(() => {
+      location.reload();
+    }, 3000);
     $q.loading.hide();
   }
 };
