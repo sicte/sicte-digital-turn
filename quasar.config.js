@@ -52,10 +52,13 @@ module.exports = configure(function (/* ctx */) {
         browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
         node: 'node16',
       },
-      env: require('dotenv').config({
-        path: `.${process.env.ENV}.env`,
-        override: true,
-      }).parsed,
+      env: {
+        ...require('dotenv').config({
+          path: `.${process.env.ENV}.env`,
+          override: true,
+        }).parsed,
+        COMPUTER_NAME: process.env.COMPUTERNAME,
+      },
 
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       // vueRouterBase,
