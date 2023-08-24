@@ -9,9 +9,8 @@
     "lint": "eslint --ext .js,.ts,.vue ./ --fix",
     "format": "prettier --write \"**/*.{js,ts,vue,css,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev",
-    "dev:electron": "quasar dev -m electron",
-    "build": "quasar build",
+    "dev:electron": "cross-env ENV=dev quasar dev -m electron",
+    "build": "cross-env ENV=prod quasar build",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -29,6 +28,8 @@
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
     "autoprefixer": "^10.4.2",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
     "electron": "^26.0.0",
     "electron-packager": "^17.1.1",
     "eslint": "^8.10.0",
