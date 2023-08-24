@@ -48,9 +48,6 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
     build: {
-      target: {
-        browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
-        node: 'node16',
       env: {
         ...require('dotenv').config({
           path: `.${process.env.ENV}.env`,
@@ -58,53 +55,57 @@ module.exports = configure(function (/* ctx */) {
         }).parsed,
         COMPUTER_NAME: process.env.COMPUTERNAME,
       },
+      target: {
+        browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
+        node: 'node16',
 
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
-      // vueRouterBase,
-      // vueDevtools,
-      // vueOptionsAPI: false,
+        vueRouterMode: 'hash', // available values: 'hash', 'history'
+        // vueRouterBase,
+        // vueDevtools,
+        // vueOptionsAPI: false,
 
-      // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
+        // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      // publicPath: '/',
-      // analyze: true,
-      // env: {},
-      // rawDefine: {}
-      // ignorePublicFolder: true,
-      // minify: false,
-      // polyfillModulePreload: true,
-      // distDir
+        // publicPath: '/',
+        // analyze: true,
+        // env: {},
+        // rawDefine: {}
+        // ignorePublicFolder: true,
+        // minify: false,
+        // polyfillModulePreload: true,
+        // distDir
 
-      // extendViteConf (viteConf) {},
-      // viteVuePluginOptions: {},
+        // extendViteConf (viteConf) {},
+        // viteVuePluginOptions: {},
 
-      // vitePlugins: [
-      //   [ 'package-name', { ..options.. } ]
-      // ]
-    },
+        // vitePlugins: [
+        //   [ 'package-name', { ..options.. } ]
+        // ]
+      },
 
-    // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
-    devServer: {
-      // https: true
-      open: true, // opens browser window automatically
-    },
+      // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
+      devServer: {
+        // https: true
+        open: true, // opens browser window automatically
+      },
 
-    // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
-    framework: {
-      config: {},
+      // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
+      framework: {
+        config: {},
 
-      // iconSet: 'material-icons', // Quasar icon set
-      // lang: 'en-US', // Quasar language pack
+        // iconSet: 'material-icons', // Quasar icon set
+        // lang: 'en-US', // Quasar language pack
 
-      // For special cases outside of where the auto-import strategy can have an impact
-      // (like functional components as one of the examples),
-      // you can manually specify Quasar components/directives to be available everywhere:
-      //
-      // components: [],
-      // directives: [],
+        // For special cases outside of where the auto-import strategy can have an impact
+        // (like functional components as one of the examples),
+        // you can manually specify Quasar components/directives to be available everywhere:
+        //
+        // components: [],
+        // directives: [],
 
-      // Quasar plugins
-      plugins: ['Notify', 'Loading'],
+        // Quasar plugins
+        plugins: ['Notify', 'Loading'],
+      },
     },
 
     // animations: 'all', // --- includes all animations
