@@ -9,8 +9,10 @@
     "lint": "eslint --ext .js,.ts,.vue ./ --fix",
     "format": "prettier --write \"**/*.{js,ts,vue,css,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
-    "dev:electron": "cross-env ENV=dev quasar dev -m electron",
-    "build": "cross-env ENV=prod quasar build",
+    "dev": "cross-env ENV=dev quasar dev -m electron",
+    "build:co": "cross-env ENV=prod FOLDER=co quasar build -m electron",
+    "build:pe": "cross-env ENV=prod FOLDER=pe quasar build -m electron",
+    "build:pt": "cross-env ENV=prod FOLDER=pt quasar build -m electron",
     "prepare": "husky install"
   },
   "dependencies": {
