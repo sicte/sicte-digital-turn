@@ -83,7 +83,6 @@ import { Bodega } from '../models/bodega.model';
 import GetBodegasFromUser from '../components/take-turn/GetBodegasFromUser.vue';
 import SelectTurn from '../components/take-turn/SelectTurn.vue';
 const userDocument = ref<string>('');
-const warehouseCant = ref<number>(0);
 const bodegaSelect = ref({
   options: <Bodega[]>[],
   selected: <Bodega | null>null,
@@ -96,14 +95,12 @@ const onBodegasGetted = (bodegas: Bodega[]) => {
   bodegaSelect.value.options.push(...bodegas);
 
   if (bodegaSelect.value.options.length == 1) {
-    warehouseCant.value = 1;
     bodegaSelect.value.selected = bodegas[0];
     step.value = 3;
     return;
   }
 
   if (bodegaSelect.value.options.length > 1) {
-    warehouseCant.value = bodegaSelect.value.options.length;
     step.value++;
   }
 };
@@ -114,7 +111,7 @@ const moveStepper = (type: 'next' | 'previous') => {
     return;
   }
 
-  type === 'previous' && warehouseCant.value == 1
+  type === 'previous' && bodegaSelect.value.options.length == 1
     ? (step.value = 1)
     : step.value--;
 };
