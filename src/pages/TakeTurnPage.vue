@@ -94,20 +94,27 @@ const onBodegasGetted = (bodegas: Bodega[]) => {
   bodegaSelect.value.options.length = 0;
   bodegaSelect.value.selected = null;
   bodegaSelect.value.options.push(...bodegas);
+
   if (bodegaSelect.value.options.length == 1) {
     warehouseCant.value = 1;
     bodegaSelect.value.selected = bodegas[0];
     step.value = 3;
-  } else {
+    return;
+  }
+
+  if (bodegaSelect.value.options.length > 1) {
     warehouseCant.value = bodegaSelect.value.options.length;
     step.value++;
   }
 };
 
 const moveStepper = (type: 'next' | 'previous') => {
-  type === 'next'
-    ? step.value++
-    : type === 'previous' && warehouseCant.value == 1
+  if (type === 'next') {
+    step.value++;
+    return;
+  }
+
+  type === 'previous' && warehouseCant.value == 1
     ? (step.value = 1)
     : step.value--;
 };
