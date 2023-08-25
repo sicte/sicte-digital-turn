@@ -10,6 +10,10 @@
 
 const { configure } = require('quasar/wrappers');
 
+const envFileName = `.${process.env.ENV}${
+  process.env.FOLDER ? '.' + process.env.FOLDER : ''
+}.env`;
+
 module.exports = configure(function (/* ctx */) {
   return {
     eslint: {
@@ -54,7 +58,7 @@ module.exports = configure(function (/* ctx */) {
       },
       env: {
         ...require('dotenv').config({
-          path: `.${process.env.ENV}.env`,
+          path: envFileName,
           override: true,
         }).parsed,
         COMPUTER_NAME: process.env.COMPUTERNAME,
