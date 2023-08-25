@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf" class="self-center">
     <q-header elevated>
       <q-toolbar>
-        <q-toolbar-title> DigiTurno </q-toolbar-title>
+        <q-toolbar-title> DigiTurno - {{ productName }}</q-toolbar-title>
         <!-- Puedes añadir otros elementos aquí, como q-btn, si lo deseas -->
       </q-toolbar>
     </q-header>
@@ -21,4 +21,6 @@
   </q-layout>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const productName = process.env.PRODUCT_NAME;
+</script>
