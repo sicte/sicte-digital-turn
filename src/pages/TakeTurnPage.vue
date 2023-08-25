@@ -93,10 +93,26 @@ const onBodegasGetted = (bodegas: Bodega[]) => {
   bodegaSelect.value.options.length = 0;
   bodegaSelect.value.selected = null;
   bodegaSelect.value.options.push(...bodegas);
-  step.value++;
+
+  if (bodegaSelect.value.options.length == 1) {
+    bodegaSelect.value.selected = bodegas[0];
+    step.value = 3;
+    return;
+  }
+
+  if (bodegaSelect.value.options.length > 1) {
+    step.value++;
+  }
 };
 
 const moveStepper = (type: 'next' | 'previous') => {
-  type === 'next' ? step.value++ : step.value--;
+  if (type === 'next') {
+    step.value++;
+    return;
+  }
+
+  type === 'previous' && bodegaSelect.value.options.length == 1
+    ? (step.value = 1)
+    : step.value--;
 };
 </script>
