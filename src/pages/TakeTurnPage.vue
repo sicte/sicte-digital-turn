@@ -78,6 +78,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useQuasar } from 'quasar';
 import { Bodega } from '../models/bodega.model';
 
 import GetBodegasFromUser from '../components/take-turn/GetBodegasFromUser.vue';
@@ -88,21 +89,29 @@ const bodegaSelect = ref({
   selected: <Bodega | null>null,
 });
 const step = ref(1);
+const $q = useQuasar();
 
 const onBodegasGetted = (bodegas: Bodega[]) => {
   bodegaSelect.value.options.length = 0;
   bodegaSelect.value.selected = null;
   bodegaSelect.value.options.push(...bodegas);
 
+  if (bodegaSelect.value.options.length == 0) {
+    $q.notify({
+      message: 'El usuario no cuenta con bodegas asignadas.',
+      type: 'negative',
+    });
+    return;
+  }
+
+  // Skip to the turn selection if the user has just one warehouse
   if (bodegaSelect.value.options.length == 1) {
     bodegaSelect.value.selected = bodegas[0];
     step.value = 3;
     return;
   }
 
-  if (bodegaSelect.value.options.length > 1) {
-    step.value++;
-  }
+  step.value++;
 };
 
 const moveStepper = (type: 'next' | 'previous') => {
