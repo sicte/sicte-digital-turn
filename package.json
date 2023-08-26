@@ -10,6 +10,7 @@
     "format": "prettier --write \"**/*.{js,ts,vue,css,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "cross-env ENV=dev quasar dev -m electron",
+    "build:ps": "cross-env ENV=dev quasar build -m electron",
     "build:co": "cross-env ENV=prod FOLDER=co quasar build -m electron",
     "build:pl": "cross-env ENV=prod FOLDER=pl quasar build -m electron",
     "build:pt": "cross-env ENV=prod FOLDER=pt quasar build -m electron",
