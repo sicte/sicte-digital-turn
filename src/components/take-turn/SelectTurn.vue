@@ -42,7 +42,7 @@ const ticketButtons = [
   },
   {
     color: 'secondary',
-    label: 'Consultoría de material',
+    label: 'Consultar a bodega',
     type: TurnType.CB,
   },
 ];
