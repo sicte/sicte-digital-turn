@@ -43,9 +43,10 @@ import { TurnType } from '../../enums/turns.enum';
 import * as turnService from '../../services/turn.service';
 
 const $q = useQuasar();
-const btnDisabled = ref(false);
-const showDialog = ref(false);
+const btnDisabled = ref(false); //Variable to disabled btn type turn
+const showDialog = ref(false); //Variable to show Dialog
 const textDialog = ref({
+  //variable to display text in the dialog
   bodyText: '',
   TurnText: '',
 });
