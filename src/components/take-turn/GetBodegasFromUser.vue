@@ -1,7 +1,7 @@
 <template>
   <q-input
     v-model="userDocument"
-    label="Cédula a validar para turno"
+    label="Cédula del técnico/usuario"
     type="text"
     class="q-my-md"
     @keypress.enter.prevent="searchUser"
@@ -27,7 +27,7 @@ watch(userDocument, () => {
 
 const searchUser = async () => {
   $q.loading.show({
-    message: 'Buscando usuario',
+    message: 'Buscando usuario, por favor espere...',
   });
   try {
     const bodegasByUser = await bodegaService.getBodegasByUserId(
@@ -35,11 +35,13 @@ const searchUser = async () => {
     );
     if (bodegasByUser.length === 0) {
       $q.notify({
-        message: 'Usuario no encontrado',
+        message:
+          'Usuario no encontrado, verifique la cédula e intente nuevamente.',
         type: 'warning',
       });
       return;
     }
+
     emit('gettedBodegas', bodegasByUser);
   } catch (error) {
     console.log(error);
