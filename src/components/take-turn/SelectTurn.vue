@@ -7,17 +7,48 @@
     @click="() => createTurn(buttonData.type)"
     class="col-2 col-sm-4 q-pa-xl"
     style="margin: 10px 10px 10px 10px"
+    :disable="btnDisabled"
   />
+  <q-dialog v-model="showDialog">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6">Exitoso:</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        {{ textDialog.bodyText }}
+        <br />
+        <b>{{ textDialog.TurnText }}</b>
+      </q-card-section>
+
+      <q-card-actions class="row justify-end">
+        <q-btn
+          flat
+          label="Cerrar"
+          color="primary"
+          v-close-popup
+          @click="reloadExcecutable()"
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
+import { ref } from 'vue';
 
 import { Bodega } from '../../models/bodega.model';
 import { TurnType } from '../../enums/turns.enum';
 import * as turnService from '../../services/turn.service';
 
 const $q = useQuasar();
+const btnDisabled = ref(false);
+const showDialog = ref(false);
+const textDialog = ref({
+  bodyText: '',
+  TurnText: '',
+});
 
 const props = defineProps<{
   bodega: Bodega;
@@ -48,6 +79,7 @@ const ticketButtons = [
 ];
 
 const createTurn = async (typeCase: TurnType) => {
+  btnDisabled.value = true;
   $q.loading.show({
     message: 'Creando turno',
   });
@@ -57,19 +89,25 @@ const createTurn = async (typeCase: TurnType) => {
       type: typeCase,
       userDocument: props.userDocument,
     });
-
-    $q.notify({
-      message: 'El turno ha sido creado.',
-      type: 'positive',
-    });
-    console.log(result);
+    showDialog.value = true;
+    textDialog.value = {
+      bodyText:
+        'Se ha creado el turno satisfactoriamente para el usuario ' +
+        props.bodega.nombres +
+        ' en la bodega ' +
+        props.bodega.Bodega +
+        '.',
+      TurnText:
+        'Se le ha asigando el turno número ' + result.data.data.insertId + '.',
+    };
   } catch (error) {
     console.error(error);
   } finally {
-    setTimeout(() => {
-      location.reload();
-    }, 3000);
     $q.loading.hide();
   }
+};
+
+const reloadExcecutable = () => {
+  location.reload();
 };
 </script>
