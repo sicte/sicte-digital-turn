@@ -12,10 +12,10 @@
             Bienvenido al sistema de turno digital
           </div>
           <br />
-          <q-label
-            >Ingrese la cédula del usuario a validar y luego presione la tecla
-            <b>Enter</b> para continuar con su búsqueda...</q-label
-          >
+          <q-label>
+            Ingrese la cédula del usuario a validar y luego presione la tecla
+            <b>Enter</b> para continuar con su búsqueda...
+          </q-label>
           <br />
           <GetBodegasFromUser
             @getted-bodegas="onBodegasGetted"
@@ -32,8 +32,8 @@
           <q-card-section>
             <div class="col-xs-12 col-sm-6 col-md-3 q-pa-sm">
               <div class="text-h6 text-center">
-                <q-label
-                  >El técnico/Usuario
+                <q-label>
+                  El técnico/Usuario
                   {{ userName }}
                   cuenta con más de una bodega asignada.
                 </q-label>
@@ -61,8 +61,8 @@
 
         <q-step :name="3" title="Seleccione el turno a crear" icon="assignment">
           <div class="text-h6 text-center">
-            <q-label
-              >Se ha seleccionado la bodega
+            <q-label>
+              Se ha seleccionado la bodega
               {{
                 bodegaSelect.selected
                   ? bodegaSelect.selected.Bodega
@@ -123,8 +123,16 @@ const $q = useQuasar();
 const onBodegasGetted = (bodegas: Bodega[]) => {
   bodegaSelect.value.options.length = 0;
   bodegaSelect.value.selected = null;
+  if (!bodegas[0]) {
+    $q.notify({
+      message:
+        'No se detectaron datos del usuario, por favor reinicie el ejecutable e intente nuevamente.',
+      type: 'negative',
+    });
+    return;
+  }
+  userName.value = bodegas[0].userName;
   bodegaSelect.value.options.push(...bodegas);
-  userName.value = bodegas[0].nombres;
 
   if (bodegaSelect.value.options.length == 0) {
     $q.notify({
