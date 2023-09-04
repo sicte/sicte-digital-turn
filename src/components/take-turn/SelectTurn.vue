@@ -7,31 +7,8 @@
     @click="() => createTurn(buttonData.type)"
     class="col-2 col-sm-4 q-pa-xl"
     style="margin: 10px 10px 10px 10px"
-    :disable="btnDisabled"
+    :disable="CreateTurnBtnDisabled"
   />
-  <q-dialog v-model="showDialog">
-    <q-card>
-      <q-card-section>
-        <div class="text-h6">Exitoso:</div>
-      </q-card-section>
-
-      <q-card-section class="q-pt-none">
-        {{ textDialog.bodyText }}
-        <br />
-        <b>{{ textDialog.TurnText }}</b>
-      </q-card-section>
-
-      <q-card-actions class="row justify-end">
-        <q-btn
-          flat
-          label="Cerrar"
-          color="primary"
-          v-close-popup
-          @click="reloadExcecutable()"
-        />
-      </q-card-actions>
-    </q-card>
-  </q-dialog>
 </template>
 
 <script setup lang="ts">
@@ -43,13 +20,7 @@ import { TurnType } from '../../enums/turns.enum';
 import * as turnService from '../../services/turn.service';
 
 const $q = useQuasar();
-const btnDisabled = ref(false); //Variable to disabled btn type turn
-const showDialog = ref(false); //Variable to show Dialog
-const textDialog = ref({
-  //variable to display text in the dialog
-  bodyText: '',
-  TurnText: '',
-});
+const CreateTurnBtnDisabled = ref(false); //Variable to disabled btn type turn
 
 const props = defineProps<{
   bodega: Bodega;
@@ -80,9 +51,9 @@ const ticketButtons = [
 ];
 
 const createTurn = async (typeCase: TurnType) => {
-  btnDisabled.value = true;
+  CreateTurnBtnDisabled.value = true;
   $q.loading.show({
-    message: 'Creando turno',
+    message: 'Creando turno, por favor espere...',
   });
   try {
     const result = await turnService.insertNewTurn({
@@ -90,25 +61,27 @@ const createTurn = async (typeCase: TurnType) => {
       type: typeCase,
       userDocument: props.userDocument,
     });
-    showDialog.value = true;
-    textDialog.value = {
-      bodyText:
-        'Se ha creado el turno satisfactoriamente para el usuario ' +
-        props.bodega.nombres +
-        ' en la bodega ' +
-        props.bodega.Bodega +
-        '.',
-      TurnText:
-        'Se le ha asigando el turno número ' + result.data.data.insertId + '.',
-    };
+
+    $q.dialog({
+      title: result.data.data.insertId ? 'Exitoso' : 'Oops!',
+      message: result.data.data.insertId
+        ? 'Se ha creado el turno satisfactoriamente para el usuario ' +
+          props.bodega.userName +
+          ' en la bodega ' +
+          props.bodega.Bodega +
+          '. Se le ha asigando el turno número ' +
+          result.data.data.insertId +
+          '.'
+        : 'Ha ocurrido un error al crear el turno, por favor reinicie el ejecutable e intente nuevamente.',
+      ok: 'Cerrar',
+      persistent: true,
+    }).onOk(() => {
+      location.reload();
+    });
   } catch (error) {
     console.error(error);
   } finally {
     $q.loading.hide();
   }
-};
-
-const reloadExcecutable = () => {
-  location.reload();
 };
 </script>
