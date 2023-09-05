@@ -10,8 +10,7 @@
 
 const { configure } = require('quasar/wrappers');
 
-const envFileName = `.${process.env.ENV}${process.env.FOLDER ? '.' + process.env.FOLDER : ''
-  }.env`;
+const envFileName = `.${process.env.ENV}${process.env.FOLDER ? '.' + process.env.FOLDER : ''}.env`;
 
 module.exports = configure(function (/* ctx */) {
   return {
