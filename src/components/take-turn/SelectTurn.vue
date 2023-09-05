@@ -52,26 +52,30 @@ const ticketButtons = [
 
 const createTurn = async (typeCase: TurnType) => {
   CreateTurnBtnDisabled.value = true;
+
   $q.loading.show({
     message: 'Creando turno, por favor espere...',
   });
+
   try {
-    const result = await turnService.insertNewTurn({
+    const { bodega: bodegaFromProps } = props;
+
+    const {
+      data: { data: insertResponse },
+    } = await turnService.insertNewTurn({
       bodega: props.bodega,
       type: typeCase,
       userDocument: props.userDocument,
     });
 
+    const messageDialog = `Se ha creado el turno satisfactoriamente para el usuario
+          ${bodegaFromProps.userName} en la bodega ${bodegaFromProps.Bodega}.
+          Se le ha asigando el turno número ${insertResponse.insertId}.`;
+
     $q.dialog({
-      title: result.data.data.insertId ? 'Exitoso' : 'Oops!',
-      message: result.data.data.insertId
-        ? 'Se ha creado el turno satisfactoriamente para el usuario ' +
-          props.bodega.userName +
-          ' en la bodega ' +
-          props.bodega.Bodega +
-          '. Se le ha asigando el turno número ' +
-          result.data.data.insertId +
-          '.'
+      title: insertResponse.insertId ? 'Exitoso' : 'Oops!',
+      message: insertResponse.insertId
+        ? messageDialog
         : 'Ha ocurrido un error al crear el turno, por favor reinicie el ejecutable e intente nuevamente.',
       ok: 'Cerrar',
       persistent: true,
