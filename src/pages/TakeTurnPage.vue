@@ -11,6 +11,12 @@
           <div class="text-h6 text-center">
             Bienvenido al sistema de turno digital
           </div>
+          <br />
+          <q-label>
+            Ingrese la cédula del usuario a validar y luego presione la tecla
+            <b>Enter</b> para continuar con su búsqueda...
+          </q-label>
+          <br />
           <GetBodegasFromUser
             @getted-bodegas="onBodegasGetted"
             @user-document-change="(document: string) => (userDocument = document)"
@@ -25,6 +31,15 @@
         >
           <q-card-section>
             <div class="col-xs-12 col-sm-6 col-md-3 q-pa-sm">
+              <div class="text-h6 text-center">
+                <q-label>
+                  El técnico/Usuario
+                  {{ userName }}
+                  cuenta con más de una bodega asignada.
+                </q-label>
+              </div>
+              <br />
+              <br />
               <q-select
                 filled
                 v-model="bodegaSelect.selected"
@@ -45,6 +60,18 @@
         </q-step>
 
         <q-step :name="3" title="Seleccione el turno a crear" icon="assignment">
+          <div class="text-h6 text-center">
+            <q-label>
+              Se ha seleccionado la bodega
+              {{
+                bodegaSelect.selected
+                  ? bodegaSelect.selected.Bodega
+                  : 'BODEGA_WAS_NOW_SELECTED'
+              }}.
+              <br />
+              Por favor, seleccione el tipo de turno que va a crear.
+            </q-label>
+          </div>
           <q-card-section class="row col-4 col-sm-8 justify-center">
             <SelectTurn
               :user-document="userDocument"
@@ -83,7 +110,9 @@ import { Bodega } from '../models/bodega.model';
 
 import GetBodegasFromUser from '../components/take-turn/GetBodegasFromUser.vue';
 import SelectTurn from '../components/take-turn/SelectTurn.vue';
+
 const userDocument = ref<string>('');
+const userName = ref<string>('');
 const bodegaSelect = ref({
   options: <Bodega[]>[],
   selected: <Bodega | null>null,
@@ -94,6 +123,15 @@ const $q = useQuasar();
 const onBodegasGetted = (bodegas: Bodega[]) => {
   bodegaSelect.value.options.length = 0;
   bodegaSelect.value.selected = null;
+  if (!bodegas[0]) {
+    $q.notify({
+      message:
+        'No se detectaron datos del usuario, por favor reinicie el ejecutable e intente nuevamente.',
+      type: 'negative',
+    });
+    return;
+  }
+  userName.value = bodegas[0].userName;
   bodegaSelect.value.options.push(...bodegas);
 
   if (bodegaSelect.value.options.length == 0) {

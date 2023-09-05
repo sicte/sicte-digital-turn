@@ -10,9 +10,8 @@
 
 const { configure } = require('quasar/wrappers');
 
-const envFileName = `.${process.env.ENV}${
-  process.env.FOLDER ? '.' + process.env.FOLDER : ''
-}.env`;
+const envFileName = `.${process.env.ENV}${process.env.FOLDER ? '.' + process.env.FOLDER : ''
+  }.env`;
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -109,7 +108,7 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Notify', 'Loading'],
+      plugins: ['Notify', 'Loading', 'Dialog'],
     },
 
     // animations: 'all', // --- includes all animations

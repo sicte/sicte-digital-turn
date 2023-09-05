@@ -7,17 +7,20 @@
     @click="() => createTurn(buttonData.type)"
     class="col-2 col-sm-4 q-pa-xl"
     style="margin: 10px 10px 10px 10px"
+    :disable="CreateTurnBtnDisabled"
   />
 </template>
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
+import { ref } from 'vue';
 
 import { Bodega } from '../../models/bodega.model';
 import { TurnType } from '../../enums/turns.enum';
 import * as turnService from '../../services/turn.service';
 
 const $q = useQuasar();
+const CreateTurnBtnDisabled = ref(false); //Variable to disabled btn type turn
 
 const props = defineProps<{
   bodega: Bodega;
@@ -48,8 +51,9 @@ const ticketButtons = [
 ];
 
 const createTurn = async (typeCase: TurnType) => {
+  CreateTurnBtnDisabled.value = true;
   $q.loading.show({
-    message: 'Creando turno',
+    message: 'Creando turno, por favor espere...',
   });
   try {
     const result = await turnService.insertNewTurn({
@@ -58,17 +62,25 @@ const createTurn = async (typeCase: TurnType) => {
       userDocument: props.userDocument,
     });
 
-    $q.notify({
-      message: 'El turno ha sido creado.',
-      type: 'positive',
+    $q.dialog({
+      title: result.data.data.insertId ? 'Exitoso' : 'Oops!',
+      message: result.data.data.insertId
+        ? 'Se ha creado el turno satisfactoriamente para el usuario ' +
+          props.bodega.userName +
+          ' en la bodega ' +
+          props.bodega.Bodega +
+          '. Se le ha asigando el turno número ' +
+          result.data.data.insertId +
+          '.'
+        : 'Ha ocurrido un error al crear el turno, por favor reinicie el ejecutable e intente nuevamente.',
+      ok: 'Cerrar',
+      persistent: true,
+    }).onOk(() => {
+      location.reload();
     });
-    console.log(result);
   } catch (error) {
     console.error(error);
   } finally {
-    setTimeout(() => {
-      location.reload();
-    }, 3000);
     $q.loading.hide();
   }
 };
